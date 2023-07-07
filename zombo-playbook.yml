@@ -1,0 +1,18 @@
+---
+
+- name: Making a zomboid user
+  hosts: juli
+  remote_user: ansible
+  tasks:
+  - name: Make sudo user zomboid
+    become: true
+    user:
+      state: present
+      name: zomboid
+      groups: adm,cdrom,sudo,dip,plugdev,lxd
+  - name: Add the key
+    become: true
+    copy:
+      src: /home/ubuntu/.ssh/id_rsa.pub
+      dest: /home/zomboid/.ssh/authorized_keys
+      owner: zomboid
